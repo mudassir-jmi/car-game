@@ -53,25 +53,28 @@ function endGame(){
 
 function moveEnemy(myCar) {
     let enemyCarList = document.querySelectorAll('.enemyCar');
-    enemyCarList.forEach(function(enemyCar) {
-        if(isCollide(myCar, enemyCar)){
+    enemyCarList.forEach(function (enemyCar) {
+        if (isCollide(myCar, enemyCar)) {
             endGame();
         }
 
-        if(enemyCar.y >= 750){
+        if (enemyCar.y >= 750) {
             enemyCar.y = -300;
-            enemyCar.style.left = Math.floor(Math.random() * 350) + "px";
+            enemyCar.style.left = Math.floor(Math.random() * (road.width - 50)) + "px"; // Adjust to road width
             enemyCar.passed = false; // Reset pass status when enemy car repositions
         }
 
         enemyCar.y += player.speed;
         enemyCar.style.top = enemyCar.y + "px";
 
-        if (!enemyCar.passed && enemyCar.getBoundingClientRect().bottom > myCar.getBoundingClientRect().bottom) {
+        if (
+            !enemyCar.passed &&
+            enemyCar.getBoundingClientRect().top > myCar.getBoundingClientRect().bottom // Compare enemy car's top with myCar's bottom
+        ) {
             player.score += 10;
             enemyCar.passed = true; // Mark this car as passed
         }
-    })
+    });
 }
 
 function runGame(){
